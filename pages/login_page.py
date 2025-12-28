@@ -4,13 +4,23 @@ from selenium.webdriver.support.select import Select
 import allure
 
 from pages.locators import login_locators
-from utils import random_account_generation
-
 
 class LoginPage(BasePage):
 
-    def signup_fill_form(self, user_data):
+    correct_user_data = {
+        'correct_email': '2019-10-071978-02-17ericafranklin@example.net',
+        'correct_password': '!746(7Nozr',
+        'correct_username': 'casey12'
+    }
+
+    def signup_fill_form(self, user_data=None):
         with allure.step('Заполнить формы регистрации'):
+            if user_data is None:
+                user_data = {
+                    'username': self.correct_user_data['correct_username'],
+                    'email': self.correct_user_data['correct_email']
+                }
+
             with allure.step(f'Заполнить поле name значением {user_data["username"]}'):
                 self.driver.find_element(*login_locators.signup_name).send_keys(user_data["username"])
             with allure.step(f'Заполнить поле email значением {user_data["email"]}'):
@@ -77,8 +87,54 @@ class LoginPage(BasePage):
             with allure.step('Текст подтверждающей надписи должен быть "ACCOUNT CREATED!"'):
                 assert self.driver.find_element(*login_locators.account_created_title).text == 'ACCOUNT CREATED!'
             with allure.step('Нажать кнопку Continue'):
-                self.driver.find_element(*login_locators.account_created_continue_btn).click()
+                self.driver.find_element(*login_locators.account_continue_btn).click()
 
-    def check_user_name(self,user_name, user_name_in_header):
+    @staticmethod
+    def check_user_name(user_name, user_name_in_header):
         with allure.step(f'Имя пользователя в навигационном меню header равен {user_name}'):
             assert user_name == user_name_in_header
+
+    def fill_login_email(self, email):
+        with (allure.step(f'Заполнить поле email значением {email}')):
+            self.driver.find_element(*login_locators.login_email).send_keys(email)
+
+    def fill_login_password(self, password):
+        with (allure.step(f'Заполнить поле password значением {password}')):
+            self.driver.find_element(*login_locators.login_password).send_keys(password)
+
+    def click_login_btn(self):
+        with allure.step('Нажать кнопку Login'):
+            self.driver.find_element(*login_locators.login_btn).click()
+
+    def check_error_msg(self):
+        with allure.step('Появился текст ошибки "Your email or password is incorrect!"'):
+            assert self.driver.find_element(*login_locators.login_error_msg
+                                            ).text == 'Your email or password is incorrect!'
+
+    def login_with_incorrect_data(self, incorrect_email, incorrect_password):
+        with allure.step('Авторизация с несуществующими данными'):
+            self.fill_login_email(incorrect_email)
+            self.fill_login_password(incorrect_password)
+            self.click_login_btn()
+            self.check_error_msg()
+
+    def login_with_correct_data(self, user_data=None):
+        with allure.step('Авторизация с существующими данными'):
+            if user_data is None:
+                user_data = self.correct_user_data
+            self.fill_login_email(user_data['correct_email'])
+            self.fill_login_password(user_data['correct_password'])
+            self.click_login_btn()
+
+    def delete_account(self):
+        with allure.step('Дождаться появления подтверждающего сообщения об успешном удалении аккаунта'):
+            self.wait.until(EC.text_to_be_present_in_element(login_locators.account_delete_title, 'ACCOUNT DELETED!'))
+        with allure.step('Текст подтверждающей надписи должен быть "ACCOUNT DELETED!"'):
+            assert self.driver.find_element(*login_locators.account_delete_title).text == 'ACCOUNT DELETED!'
+        with allure.step('Нажать кнопку Continue'):
+            self.driver.find_element(*login_locators.account_continue_btn).click()
+
+    def check_email_already_exist_message(self):
+        with allure.step('Появился текст ошибки "Email Address already exist!"'):
+            assert self.driver.find_element(*login_locators.email_already_exist_msg
+                                            ).text == 'Email Address already exist!'

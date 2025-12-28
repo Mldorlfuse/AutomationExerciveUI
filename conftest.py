@@ -40,6 +40,8 @@ def random_user_data():
         'city': fake.city(),
         'zipcode': fake.zipcode(),
         'phone_number': fake.phone_number(),
+        'error_email': f'{fake.user_name()}{fake.date()}{fake.email()}',
+        'error_password': fake.password()
     }
 
 
