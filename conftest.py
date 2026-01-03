@@ -5,6 +5,8 @@ from faker import Faker
 
 from components.header_components import HeaderComponent
 from pages.login_page import LoginPage
+from pages.contact_us_page import ContactUsPage
+from pages.products_page import ProductsPage
 
 @pytest.fixture()
 def driver():
@@ -40,11 +42,29 @@ def random_user_data():
         'city': fake.city(),
         'zipcode': fake.zipcode(),
         'phone_number': fake.phone_number(),
-        'error_email': f'{fake.user_name()}{fake.date()}{fake.email()}',
-        'error_password': fake.password()
     }
 
+@pytest.fixture()
+def random_wrong_user_data():
 
+    fake = Faker()
+
+    return {
+        'error_email': f'{fake.user_name()}{fake.date()}{fake.email()}',
+        'error_password': fake.password(),
+    }
+
+@pytest.fixture()
+def random_contact_us_data():
+
+    fake = Faker()
+
+    return {
+        'name': fake.name(),
+        'email': fake.email(),
+        'subject': fake.sentence(nb_words=4),
+        'message': fake.text(max_nb_chars=200)
+    }
 
 @pytest.fixture()
 def header_component(driver):
@@ -54,3 +74,10 @@ def header_component(driver):
 def login_page(driver):
     return LoginPage(driver)
 
+@pytest.fixture()
+def contact_us_page(driver):
+    return ContactUsPage(driver)
+
+@pytest.fixture()
+def products_page(driver):
+    return ProductsPage(driver)

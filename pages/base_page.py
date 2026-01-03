@@ -6,7 +6,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 class BasePage:
     base_url = 'https://automationexercise.com'
-    page_url = None
 
     def __init__(self, driver: WebDriver):
         self.driver = driver
@@ -15,7 +14,3 @@ class BasePage:
     def open_home_page(self):
         with allure.step(f'Открыть страницу с url {self.base_url}'):
             self.driver.get(self.base_url)
-
-    def open_page(self):
-        with allure.step(f'Открыть страницу с url {self.base_url}{self.page_url}'):
-            self.driver.get(f'{self.base_url}{self.page_url}')

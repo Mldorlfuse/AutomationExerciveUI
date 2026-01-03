@@ -31,3 +31,15 @@ class HeaderComponent(BasePage):
     def delete_button_click(self):
         with allure.step('Нажать кнопку Delete'):
             self.driver.find_element(*header_locators.delete_account_nav_button).click()
+
+    def open_contact_us_page(self):
+        with allure.step('Открыть страницу формы обратной связи используя навигационное меню в header'):
+            self.driver.find_element(*header_locators.contact_us_nav_button).click()
+
+    def open_products_page(self):
+        with allure.step('Открыть страницу продуктов используя навигационное меню в header'):
+            self.driver.find_element(*header_locators.products_nav_button).click()
+
+    def open_card_page(self):
+        with allure.step('Открыть страницу корзины используя навигационное меню в header'):
+            self.driver.find_element(*header_locators.cart_nav_button).click()

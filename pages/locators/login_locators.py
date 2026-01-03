@@ -5,6 +5,7 @@ signup_email = (By.CSS_SELECTOR, '[data-qa="signup-email"]')
 signup_button = (By.CSS_SELECTOR, '[data-qa="signup-button"]')
 signup_form = (By.CSS_SELECTOR, '#form')
 
+account_info_title = (By.XPATH, '//h2/b')
 account_info_titles = [(By.CSS_SELECTOR, '[id="uniform-id_gender1"]'),(By.CSS_SELECTOR, '[id="uniform-id_gender2"]')]
 account_info_password = (By.CSS_SELECTOR, '[data-qa="password"]')
 account_info_day_of_birth = (By.CSS_SELECTOR, '[data-qa="days"]')

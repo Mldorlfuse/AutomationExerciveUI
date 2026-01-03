@@ -30,6 +30,10 @@ class LoginPage(BasePage):
 
     def enter_account_information(self, user_data):
         with allure.step('Заполнить формы информации об аккаунте'):
+            with allure.step('Дождаться появления надписи ENTER ACCOUNT INFORMATION'):
+                self.wait.until(
+                    EC.text_to_be_present_in_element(
+                        login_locators.account_info_title, 'ENTER ACCOUNT INFORMATION'))
             with allure.step('Заполнить поле гендер выбрав случайный вариант'):
                 (self.driver.find_element(*login_locators.account_info_titles[user_data["type_of_gender"]])
                  .click())
