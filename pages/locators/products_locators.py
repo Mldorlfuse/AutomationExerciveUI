@@ -16,7 +16,18 @@ view_product_quantity = (By.CSS_SELECTOR, '#quantity')
 view_product_brand = (By.XPATH, '//div[@class="product-information"]/p[4]')
 
 add_to_cart = (By.CSS_SELECTOR, '.btn-default')
+cart_modal_wrapper = (By.CSS_SELECTOR, '#cartModal')
+cart_modal_title = (By.TAG_NAME, 'h4')
+cart_modal_continue_btn = (By.TAG_NAME, 'button')
 
 categories_wrapper = (By.CSS_SELECTOR, '.panel.panel-default')
 category = (By.XPATH, './/h4[@class="panel-title"]/a')
 subcategories = (By.XPATH, './/div[@class="panel-body"]/ul/li/a')
+
+search = (By.CSS_SELECTOR, '#search_product')
+search_btn = (By.CSS_SELECTOR, '#submit_search')
+
+brands_wrapper = (By.CSS_SELECTOR, '.nav.nav-pills.nav-stacked')
+brands_elements = (By.XPATH, './/li')
+brand_name = (By.TAG_NAME, 'a')
+brand_count = (By.TAG_NAME, 'span')
