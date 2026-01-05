@@ -16,8 +16,10 @@ def driver():
     options.add_argument('start-maximized')
     chrome_driver = webdriver.Chrome(options=options)
     chrome_driver.implicitly_wait(5)
-    return chrome_driver
 
+    yield chrome_driver
+
+    chrome_driver.quit()
 
 @pytest.fixture()
 def random_user_data():
