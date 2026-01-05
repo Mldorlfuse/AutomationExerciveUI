@@ -2,11 +2,13 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from faker import Faker
+import random
 
 from components.header_components import HeaderComponent
 from pages.login_page import LoginPage
 from pages.contact_us_page import ContactUsPage
 from pages.products_page import ProductsPage
+from pages.cart_page import CartPage
 
 @pytest.fixture()
 def driver():
@@ -67,6 +69,25 @@ def random_contact_us_data():
     }
 
 @pytest.fixture()
+def random_count_for_view():
+    return random.randint(1, 10)
+
+@pytest.fixture()
+def random_card_data():
+    fake = Faker()
+
+    month, year = fake.credit_card_expire().split("/")
+
+    return {
+        "provider": fake.credit_card_provider(),
+        "holder": fake.name(),
+        "number": fake.credit_card_number(),
+        "expiry_month": month,
+        "expiry_year": f"20{year}",
+        "cvv": fake.credit_card_security_code()
+    }
+
+@pytest.fixture()
 def header_component(driver):
     return HeaderComponent(driver)
 
@@ -81,3 +102,7 @@ def contact_us_page(driver):
 @pytest.fixture()
 def products_page(driver):
     return ProductsPage(driver)
+
+@pytest.fixture()
+def cart_page(driver):
+    return CartPage(driver)

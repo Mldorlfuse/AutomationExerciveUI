@@ -15,7 +15,7 @@ view_product_category = (By.TAG_NAME, 'p')
 view_product_quantity = (By.CSS_SELECTOR, '#quantity')
 view_product_brand = (By.XPATH, '//div[@class="product-information"]/p[4]')
 
-add_to_cart = (By.CSS_SELECTOR, '.btn-default')
+add_to_cart = (By.CSS_SELECTOR, '.btn.btn-default.cart')
 cart_modal_wrapper = (By.CSS_SELECTOR, '#cartModal')
 cart_modal_title = (By.TAG_NAME, 'h4')
 cart_modal_continue_btn = (By.TAG_NAME, 'button')

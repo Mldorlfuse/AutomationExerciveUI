@@ -6,6 +6,9 @@ import random
 from pages.locators import products_locators
 
 class ProductsPage(BasePage):
+
+    view_product_data = None
+
     def get_all_products(self):
         with allure.step('Получить список всех продуктов'):
             return self.driver.find_elements(*products_locators.list_products)
@@ -113,7 +116,32 @@ class ProductsPage(BasePage):
             assert self.driver.find_element(*products_locators.view_product_brand
                                             ).text.casefold().strip('brand: ') in random_brand_name.casefold()
 
-    def add_to_cart_from_product_view(self):
+    def add_to_cart_from_product_view(self, count):
         self.wait_title()
         self.select_a_random_product_card()
         self.go_to_product_card()
+        with allure.step(f'Ввести количество - {count} продуктов'):
+            self.driver.find_element(*products_locators.view_product_quantity).clear()
+            self.driver.find_element(*products_locators.view_product_quantity).send_keys(count)
+        with allure.step('Получить данные из карточки продукта'):
+            self.view_product_data = {
+                'name': self.driver.find_element(*products_locators.view_product_wrapper).find_element(
+                *products_locators.view_product_name).text,
+                'price': self.driver.find_element(*products_locators.view_product_wrapper).find_element(
+                *products_locators.view_product_price).text
+            }
+        with allure.step('Нажать кнопку добавить в корзину'):
+            self.driver.find_element(*products_locators.add_to_cart).click()
+
+    def check_added_modal_info_and_confirm(self):
+        with allure.step('Дождаться появления модального окна с заголовком "Added!"'):
+            self.wait.until(
+                lambda driver: "Added!" in driver.find_element(
+                    *products_locators.cart_modal_wrapper
+                ).find_element(
+                    *products_locators.cart_modal_title
+                ).text
+            )
+        with allure.step('Нажать кнопку continue'):
+            self.driver.find_element(*products_locators.cart_modal_wrapper).find_element(
+                *products_locators.cart_modal_continue_btn).click()
