@@ -5,6 +5,7 @@ from faker import Faker
 import random
 
 from components.header_components import HeaderComponent
+from components.dialog_components import DialogComponent
 from pages.login_page import LoginPage
 from pages.contact_us_page import ContactUsPage
 from pages.products_page import ProductsPage
@@ -13,12 +14,13 @@ from pages.cart_page import CartPage
 @pytest.fixture()
 def driver():
     options = Options()
-    options.add_argument('start-maximized')
+    options.add_argument('--headless')
     chrome_driver = webdriver.Chrome(options=options)
     chrome_driver.implicitly_wait(5)
 
     yield chrome_driver
 
+    chrome_driver.save_screenshot(f'{str(random.randint(100, 10000))}.png')
     chrome_driver.quit()
 
 @pytest.fixture()
@@ -108,3 +110,7 @@ def products_page(driver):
 @pytest.fixture()
 def cart_page(driver):
     return CartPage(driver)
+
+@pytest.fixture()
+def dialog_component(driver):
+    return DialogComponent(driver)
