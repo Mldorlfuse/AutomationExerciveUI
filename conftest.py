@@ -15,6 +15,7 @@ from pages.cart_page import CartPage
 def driver():
     options = Options()
     options.add_argument('--headless')
+    options.add_argument('window-size=1920,1080')
     chrome_driver = webdriver.Chrome(options=options)
     chrome_driver.implicitly_wait(5)
 
