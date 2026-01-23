@@ -23,7 +23,7 @@ def driver():
     service = Service(executable_path="/usr/bin/chromedriver")
 
     driver = webdriver.Chrome(
-        service=service, 
+        service=service,
         options=options
     )
 

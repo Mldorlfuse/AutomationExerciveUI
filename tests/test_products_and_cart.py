@@ -28,9 +28,7 @@ def test_applications_of_brands(open_products_page, products_page):
 @allure.feature("Продукты и корзина")
 @allure.story("Добавить случайное количество продукта, проверить отображаемое количество в корзине и оформить заказ")
 def test_add_products_to_cart(
-        open_login_page,
-        login,
-        open_products_page,
+        login_and_open_products_page,
         products_page,
         random_count_for_view,
         header_component,
