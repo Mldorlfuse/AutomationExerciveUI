@@ -14,8 +14,9 @@ from pages.cart_page import CartPage
 @pytest.fixture()
 def driver():
     options = Options()
-    options.add_argument('--headless')
-    options.add_argument('window-size=1920,1080')
+    options.add_argument("--headless=new")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     chrome_driver = webdriver.Chrome(options=options)
     chrome_driver.implicitly_wait(5)
 
