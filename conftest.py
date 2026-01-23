@@ -1,6 +1,5 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from faker import Faker
 import random
@@ -15,20 +14,13 @@ from pages.cart_page import CartPage
 @pytest.fixture()
 def driver():
     options = Options()
-    options.binary_location = "/usr/bin/chromium"
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument('window-size=1920,1080')
+    chrome_driver = webdriver.Chrome(options=options)
+    chrome_driver.implicitly_wait(5)
 
-    service = Service(executable_path="/usr/bin/chromedriver")
+    yield chrome_driver
 
-    driver = webdriver.Chrome(
-        service=service,
-        options=options
-    )
-
-    yield driver
-    driver.quit()
+    chrome_driver.quit()
 
 @pytest.fixture()
 def random_user_data():
