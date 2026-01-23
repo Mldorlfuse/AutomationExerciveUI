@@ -18,13 +18,16 @@ def driver():
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    chrome_driver = webdriver.Chrome(options=options)
-    chrome_driver.implicitly_wait(5)
 
-    yield chrome_driver
+    service = Service(executable_path="/usr/bin/chromedriver")
 
-    chrome_driver.save_screenshot(f'{str(random.randint(100, 10000))}.png')
-    chrome_driver.quit()
+    driver = webdriver.Chrome(
+        service=service, 
+        options=options
+    )
+
+    yield driver
+    driver.quit()
 
 @pytest.fixture()
 def random_user_data():
