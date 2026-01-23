@@ -14,6 +14,7 @@ from pages.cart_page import CartPage
 @pytest.fixture()
 def driver():
     options = Options()
+    options.binary_location = "/usr/bin/chromium"
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
